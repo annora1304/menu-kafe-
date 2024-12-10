@@ -1,10 +1,11 @@
 import java.util.Scanner;
+
 public class KafeStudyCase {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
-        String[] menuKafe = {"Americano", "Latte", "Frappe taro", "Dimsum", "Mie Goreng", "Ricebowl", "Takoyaki", "Wonton Chili Oil"};
-        double[] hargaMenu = {21000, 26000, 32000, 25000, 24000, 30000, 28000, 27000};
+        String[] menuKafe = {"Americano", "Latte", "Frappe taro", "Dimsum", "Mie Goreng", "Ricebowl", "Takoyaki", "Wonton Chili Oil", "Pangsit Ayam"};
+        double[] hargaMenu = {21000, 26000, 32000, 25000, 24000, 30000, 28000, 27000, 15000};
 
         String[] namaPelanggan = new String[100];
         int[] nomorMeja = new int[100];
@@ -22,6 +23,11 @@ public class KafeStudyCase {
             int pilihan = sc.nextInt();
             sc.nextLine();
 
+            System.out.println("\n===== Menu Kafe =====");
+            for (int i = 0; i < menuKafe.length; i++) {
+                System.out.println((i + 1) + ". " + menuKafe[i] + " = Rp " + hargaMenu[i]);
+            }
+    
             if (pilihan == 1) {
                 System.out.print("Nama Pelanggan: ");
                 String nama = sc.nextLine();
@@ -52,11 +58,7 @@ public class KafeStudyCase {
                 }
 
                 while (true) {
-                    System.out.println("\n===== Menu Kafe =====");
-                    for (int i = 0; i < menuKafe.length; i++) {
-                        System.out.println((i + 1) + ". " + menuKafe[i] + " = Rp " + hargaMenu[i]);
-                    }
-                    System.out.print("Pilih menu (masukkan nomor menu, atau 0 untuk selesai): ");
+                    System.out.print("\nPilih menu (masukkan nomor menu, atau 0 untuk selesai): ");
                     int pilihanMenu = sc.nextInt();
                     if (pilihanMenu == 0) {
                         break;
@@ -86,6 +88,7 @@ public class KafeStudyCase {
                         jumlahMenu++;
                     }
                 }
+
             } else if (pilihan == 2) {
                 if (jumlahPelanggan == 0) {
                     System.out.println("Belum ada pesanan yang dicatat.");
