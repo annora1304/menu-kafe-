@@ -2,9 +2,10 @@ import java.util.Scanner;
 public class KafeStudyCase {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
+
         String[] menuKafe = {"Americano", "Latte", "Frappe taro", "Dimsum", "Mie Goreng", "Ricebowl", "Takoyaki", "Wonton Chili Oil"};
         double[] hargaMenu = {21000, 26000, 32000, 25000, 24000, 30000, 28000, 27000};
-        
+
         String[] namaPelanggan = new String[100];
         int[] nomorMeja = new int[100];
         String[][] daftarMenu = new String[100][100];
@@ -19,17 +20,37 @@ public class KafeStudyCase {
             System.out.println("3. Keluar");
             System.out.print("Pilih menu: ");
             int pilihan = sc.nextInt();
-            sc.nextLine(); 
+            sc.nextLine();
 
             if (pilihan == 1) {
                 System.out.print("Nama Pelanggan: ");
-                namaPelanggan[jumlahPelanggan] = sc.nextLine();
-
+                String nama = sc.nextLine();
                 System.out.print("Nomor Meja: ");
-                nomorMeja[jumlahPelanggan] = sc.nextInt();
+                int meja = sc.nextInt();
                 sc.nextLine();
 
+                int indexPelanggan = -1;
+                for (int i = 0; i < jumlahPelanggan; i++) {
+                    if (namaPelanggan[i].equalsIgnoreCase(nama) && nomorMeja[i] == meja) {
+                        indexPelanggan = i;
+                        break;
+                    }
+                }
+
+                if (indexPelanggan == -1) { 
+                    indexPelanggan = jumlahPelanggan;
+                    namaPelanggan[jumlahPelanggan] = nama;
+                    nomorMeja[jumlahPelanggan] = meja;
+                    jumlahPelanggan++;
+                }
+
                 int jumlahMenu = 0;
+                for (int j = 0; j < daftarMenu[indexPelanggan].length; j++) {
+                    if (daftarMenu[indexPelanggan][j] != null) {
+                        jumlahMenu++;
+                    }
+                }
+
                 while (true) {
                     System.out.println("\n===== Menu Kafe =====");
                     for (int i = 0; i < menuKafe.length; i++) {
@@ -37,30 +58,34 @@ public class KafeStudyCase {
                     }
                     System.out.print("Pilih menu (masukkan nomor menu, atau 0 untuk selesai): ");
                     int pilihanMenu = sc.nextInt();
-
                     if (pilihanMenu == 0) {
                         break;
                     }
-                    
                     if (pilihanMenu < 1 || pilihanMenu > menuKafe.length) {
                         System.out.println("Pilihan menu tidak valid. Silakan coba lagi.");
                         continue;
                     }
-
                     System.out.print("Jumlah Item: ");
                     int jumlah = sc.nextInt();
-
                     if (jumlah <= 0) {
                         System.out.println("Jumlah item harus lebih dari 0. Silakan ulangi.");
                         continue;
                     }
-                    daftarMenu[jumlahPelanggan][jumlahMenu] = menuKafe[pilihanMenu - 1];
-                    jumlahItem[jumlahPelanggan][jumlahMenu] = jumlah;
-                    hargaItem[jumlahPelanggan][jumlahMenu] = hargaMenu[pilihanMenu - 1];
-                    jumlahMenu++;
+                    boolean itemFound = false;
+                    for (int j = 0; j < jumlahMenu; j++) {
+                        if (daftarMenu[indexPelanggan][j].equals(menuKafe[pilihanMenu - 1])) {
+                            jumlahItem[indexPelanggan][j] += jumlah;
+                            itemFound = true;
+                            break;
+                        }
+                    }
+                    if (!itemFound) {
+                        daftarMenu[indexPelanggan][jumlahMenu] = menuKafe[pilihanMenu - 1];
+                        jumlahItem[indexPelanggan][jumlahMenu] = jumlah;
+                        hargaItem[indexPelanggan][jumlahMenu] = hargaMenu[pilihanMenu - 1];
+                        jumlahMenu++;
+                    }
                 }
-                jumlahPelanggan++;
-
             } else if (pilihan == 2) {
                 if (jumlahPelanggan == 0) {
                     System.out.println("Belum ada pesanan yang dicatat.");
@@ -83,9 +108,8 @@ public class KafeStudyCase {
                     }
                 }
             } else if (pilihan == 3) {
-                System.out.println("Terima kasih! Sampai jumpa BUB.");
+                System.out.println("Terima kasih! Sampai jumpa.");
                 break;
-
             } else {
                 System.out.println("Pilihan tidak valid. Silakan coba lagi.");
             }
